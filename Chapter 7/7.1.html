@@ -1,0 +1,41 @@
+<!-- Listing 7.1: ImageVsText.html - Comparing drawImage with fillText -->
+
+<!DOCTYPE html>
+<canvas id="myCanvas" width="500" height="500"></canvas>
+
+<script src="benchmark.js"></script>
+
+<script>
+var can = document.getElementById('myCanvas');
+var ctx = can.getContext('2d');
+ctx.font = '72px Verdana';
+
+var img = new Image();
+
+img.onload = function() {
+  var suite = new Benchmark.Suite;
+  // add tests, chaining commands as we go
+  suite.add('Draw Image', function() {
+    ctx.drawImage(img, 0, 0);
+  })
+  .add('Fill Text', function() {
+    ctx.fillText('lala', 100, 100);
+  })
+  // add listeners to see results
+  .on('cycle', function(event) {
+    console.log(String(event.target));
+  })
+  // announce a winner
+  .on('complete', function() {
+    console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+  })
+  // run the benchmark
+  .run();
+}
+
+// At the time of this writing this website serves up
+// an image of a kitten in the desired /width/height
+// This image may not load, and you may need to
+// replace it with a 100x100 image of your own
+img.src = 'http://placekitten.com/100/100';
+</script>

@@ -1,0 +1,38 @@
+<!-- Listing 12.1: sockets.html - WebSockets Sample Page -->
+
+<!DOCTYPE html>
+
+<body>
+<!-- There are no visible HTML elements on this page,
+     Everything happens in the developer console!
+     If you wanted to write the messages to the HTML body
+     You could use document.write instead of console.log -->
+
+<script>
+  var socket = new WebSocket('ws://echo.websocket.org');
+
+  socket.addEventListener('open', function(event) {
+    var msg = 'Hello server!';
+    console.log('Connection open, sending message: ' + msg);
+
+    // Once the connection is open, send a message to the server
+    socket.send(msg);
+  }, false);
+
+  socket.addEventListener('close', function(event) {
+    console.log('Connection closed.');
+  }, false);
+
+  socket.addEventListener('message', function(event) {
+    console.log('Message received: ' + event.data + '');
+
+    socket.close();
+  }, false);
+
+  socket.addEventListener('error', function(event) {
+    console.log('Something went wrong!');
+  }, false);
+
+</script>
+
+</body>

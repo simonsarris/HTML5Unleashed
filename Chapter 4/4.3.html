@@ -1,0 +1,43 @@
+<!-- Listing 4.3: A Simple Sequential Playlist -->
+
+<video id="myVideo" width="400" controls>
+  <source id="webm-source" src="video1.webm" type="video/webm" />
+  <source id="mp4-source"  src="video1.mp4" type="video/mp4" />
+</video>
+
+<script type="text/javascript">
+  // We could be cleverer if our videos have similar
+  // naming conventions, but for the example
+  // we'll keep it clear and simple.
+
+  // Construct a list of videos and formats:
+  var allVideos = [];
+  allVideos[0] = ["video1.webm",
+                  "video1.mp4"];
+  allVideos[1] = ["video2.webm",
+                  "video2.mp4"];
+  allVideos[2] = ["video3.webm",
+                  "video3.mp4"];
+
+  // Loads the nth video in our list
+  function loadVideo(n) {
+    var webm = document.getElementById('webm-source');
+    var mp4 = document.getElementById('mp4-source');
+    webm.setAttribute("src", allVideos[n][0]);
+    mp4.setAttribute("src", allVideos[n][1]);
+
+    var video = document.getElementById('myVideo');
+    video.load();
+    // Start playing after loading:
+    video.play();
+  }
+
+  var currentVideo = 0;
+  var video = document.getElementById('myVideo');
+  // The 'ended' event fires every time a video reaches the end
+  video.addEventListener('ended', function() {
+    currentVideo++;
+    if (currentVideo > allVideos.length) currentVideo = 0;
+    loadVideo(currentVideo);
+  }, false);
+</script>

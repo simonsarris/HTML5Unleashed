@@ -1,0 +1,136 @@
+<!-- Listing 3.7: dragdrop.html - Complete Drag-and-Drop Example -->
+
+<!DOCTYPE head>
+<!--
+  HTML5 Drag and Drop example
+  based on an excellent Mozilla Developer Network (MDN) example
+-->
+<html>
+<head>
+  <title>Drag and Drop Example</title>
+  <meta charset="utf-8">
+  <style>
+    .draggable {
+      font: bold 16px sans-serif;
+      width: 200px;
+      height: 20px;
+      text-align: center;
+      background: white;
+      cursor: move;
+    }
+
+    .dropzone {
+      width: 200px;
+      height: 20px;
+      background: lightblue;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <p>Drag and drop to rearrange the menu!</p>
+  <!-- four "dropzone" divs, three of them have "draggable" divs inside. -->
+  <div class="dropzone">
+    <div class="draggable" draggable="true">Water</div>
+  </div>
+  <div class="dropzone">
+    <div class="draggable" draggable="true">Coffee</div>
+  </div>
+  <div class="dropzone">
+    <div class="draggable" draggable="true">Tea</div>
+  </div>
+  <div class="dropzone"></div>
+
+<script>
+var dragged = null; // A reference to the element currently being dragged
+
+// This event should only fire on the drag targets.
+// Instead of finding every drag target,
+// we can add the event to the document and disregard
+// all elements that are not of class "draggable"
+document.addEventListener("dragstart", function(event) {
+  if (event.target.className !== "draggable") return;
+  // Some data must be set to allow drag
+  event.dataTransfer.setData("text", "");
+
+  // store a reference to the dragged element
+  dragged = event.target;
+  // Objects during drag will have a red border
+  event.target.style.border = "2px solid red";
+}, false);
+
+// Below are events intended for the drop targets
+
+// To get a list of all the divs of class 'dropzone', we'll use
+// getElementsByClassName, a new method in HTML5!
+// (getElementsByClassName originated in Opera 9.5)
+var dropdivs = document.getElementsByClassName('dropzone');
+
+var l = dropdivs.length;
+for (var i = 0; i < l; i++) {
+  var div = dropdivs[i];
+  div.addEventListener("dragenter", function(event) {
+    // highlight potential drop target when the draggable element enters
+    var t = event.target; // The object we are dragging over
+    if (t.className !== "dropzone") return;
+      if (t.firstElementChild !== null) {
+        t.style.background = 'red';
+      } else {
+        t.style.background = 'lime';
+      }
+
+    // Requirement in some browsers, such as Internet Explorer
+    event.preventDefault();
+  }, false);
+
+  div.addEventListener("dragover", function(event) {
+    // We call preventDefault to allow a drop
+    // But on divs that already contain an element,
+    // we want to disallow dropping
+
+    var t = event.target; // The object we are dragging over
+    if (t.className !== "dropzone" || t.firstElementChild !== null) {
+      // Disallow a drop by returning before a call to preventDefault:
+      return;
+    }
+
+    // Allow a drop on everything else
+    event.preventDefault();
+  }, false);
+
+  div.addEventListener("dragleave", function(event) {
+    // reset background of potential drop target
+    if (event.target.className == "dropzone") {
+      event.target.style.background = "";
+    }
+  }, false);
+
+  div.addEventListener("drop", function(event) {
+    // prevent default action
+    // (open as link for some elements in some browsers)
+    event.preventDefault();
+    // move dragged element to the drop target
+    if (event.target.className == "dropzone") {
+      event.target.style.background = "";
+      dragged.parentNode.removeChild(dragged);
+      event.target.appendChild(dragged);
+    }
+
+    // If we were using drag data, we could get it here, ie:
+    // var data = event.dataTransfer.getData('text');
+    // Alas, for this simple example all we need are the event.target
+    // and our saved "dragged" element
+  }, false);
+
+  div.addEventListener("dragend", function(event) {
+    // reset the border
+    event.target.style.border = "";
+  }, false);
+}
+
+</script>
+
+</body>
+</html>

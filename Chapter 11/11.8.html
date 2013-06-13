@@ -1,0 +1,31 @@
+<!-- Listing 11.8: frame.html - Shared Workers iFrame -->
+
+
+<!DOCTYPE html>
+<head>
+  <title>Shared Worker Frame</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var muzhik = new SharedWorker('shared.js', 'Tolstoy');
+
+muzhik.port.addEventListener('message', function(event) {
+  var p = document.createElement('p');
+  p.innerText = event.data;
+  document.body.appendChild(p);
+}, false);
+
+muzhik.port.start();
+
+// Send a message with a JSON object describing the Fibonacci we want computed
+// And a name describing the page that is posting the message
+muzhik.port.postMessage(
+  { fib: 5,
+    page: 'iFrame'
+  });
+
+</script>
+
+</body>

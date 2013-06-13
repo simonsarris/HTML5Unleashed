@@ -1,0 +1,18 @@
+<!-- Listing 5.2: Example.html - A Complete HTML Page with a Canvas -->
+
+<!doctype html>
+<html>
+  <body>
+    <canvas id="myCanvas" width="500" height="500"
+            style="border: 1px solid black;">
+      This text is displayed if your browser does not support HTML5 canvas
+    </canvas>
+
+    <script type="text/javascript">
+      // We'll attach both of these to the JavaScript window object
+      // so we can easily access them in the console
+      window.canvas = document.getElementById('myCanvas');
+      window.ctx = canvas.getContext('2d');
+    </script>
+  </body>
+</html>

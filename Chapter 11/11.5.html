@@ -1,0 +1,34 @@
+<!-- Listing 11.5: worker.html - The HTML Driving Two Web Workers -->
+
+<!DOCTYPE html>
+<head>
+  <title>Web Worker Test</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var muzhik1 = new Worker('workerScript.js');
+var muzhik2 = new Worker('workerScript.js');
+
+muzhik1.addEventListener('message', function(event) {
+  console.log(event.data); // log anything we get back
+}, false);
+
+muzhik2.addEventListener('message', function(event) {
+  console.log(event.data); // log anything we get back
+}, false);
+
+// Send an empty message to start the worker
+// (This is not necessary, as we'll see)
+// NOTE: Some browsers do not accept completely empty messages
+// (such as Firefox). You can substitute any non-number, such as 'blah'
+muzhik1.postMessage();
+
+muzhik1.postMessage(42);
+
+muzhik2.postMessage(5);
+
+</script>
+
+</body>

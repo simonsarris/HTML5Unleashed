@@ -1,0 +1,106 @@
+<!-- Listing 10.5: indexedDB.html - Complete IndexedDB Example -->
+
+<!DOCTYPE html>
+<body>
+<script>
+// Either we are creating a new database with version 1, or
+// we are upgrading the existing (but empty) database from version 0 to 1:
+var myRequest = indexedDB.open('myDatabase', 1);
+var myDB = null; // nothing yet, but will be an IDBDatabase object reference
+
+// If this event fires, it fires before onsuccess
+myRequest.onupgradeneeded = function(event) {
+  console.log('Commencing upgrade!');
+
+  // We could also use event.target.result
+  myDB = myRequest.result; // Save a reference to our database
+
+  // Modify the database schema
+
+  // Using a key store:
+  var store1 = myDB.createObjectStore('myStore1', { keyPath: 'ID' });
+
+  // Create additional indexes for store1:
+  store1.createIndex('lastLogin', 'lastLogin', { unique: false });
+  store1.createIndex('rank', 'rank', { unique: true });
+
+  // Using a key generator, allowing storage of primitives (like strings):
+  var store2 = myDB.createObjectStore('myStore2', { autoIncrement: true });
+
+
+  // Now that we've created a schema with two stores, we can add data.
+
+  // For store1 (key path) the key is the ID,
+  // so the 'ID' property of the object is necessary:
+  store1.add({ ID: 'wvr2098', rank: 1, points: 92, lastLogin: '2013-01-01' });
+  store1.add({ ID: 'sas1031', rank: 2, points: 88, lastLogin: '2013-01-05' });
+
+  // For store2 (key generator) the keys are set automatically:
+  store2.put('Some data'); // Automatically gets a key of 1
+  store2.put('More data'); // Automatically gets a key of 2
+};
+
+// Note that this event fires after onupgradeneeded, not before.
+myRequest.onsuccess = function(event) {
+  console.log('Database finished opening (and upgrading)!');
+
+  myDB = myRequest.result; // Save a reference to our database
+
+  carryOutATransaction();
+};
+
+
+// In our example we only call this function after the database
+// has completed opening, but we could call it any time,
+// such as on a button press or form submission
+function carryOutATransaction() {
+
+  // A little safety:
+  // if myDB is still null, then no database has been opened, so quit!
+  if (myDB === null) return;
+
+  // Create a new transaction. The first argument is an array of stores
+  // The second argument is the type of operation we wish to carry out
+  var transaction = myDB.transaction(['myStore1', 'myStore2'], 'readwrite');
+
+  // Do something when all the data is added to the database.
+  transaction.oncomplete = function(event) {
+    console.log('Readwrite transaction finished!');
+  };
+
+  transaction.onerror = function(event) {
+    // Just like with opening, we should be handling errors here too
+  };
+
+  var store1 = transaction.objectStore('myStore1');
+  var store2 = transaction.objectStore('myStore2');
+
+  // Some new data to add:
+  var data = [
+    { ID: 'mau0528', rank: 5, points: 12, lastLogin: '2013-03-08' },
+    { ID: 'sei0028', rank: 4, points: 60, lastLogin: '2013-01-01' },
+    { ID: 'gru3311', rank: 3, points: 78, lastLogin: '2013-02-05' }];
+
+  for (var i = 0; i < data.length; i++) {
+    var request = store1.add(data[i]);
+    request.onsuccess = function(event) {
+      console.log('Successfully added data');
+    };
+    request.onerror = function(event) {
+      // Since we are using "add" and not "put",
+      // this error might fire if the key already exists in the database
+      console.log('Error in adding data');
+    };
+  }
+
+  // Read some data at the end of our transaction:
+  store1.get("sas1031").onsuccess = function(event) {
+    console.log(event.currentTarget.result.points);
+  }
+  // Get the second key in store2
+  store2.get(2).onsuccess = function(event) {
+    console.log(event.currentTarget.result);
+  }
+}
+</script>
+</body>

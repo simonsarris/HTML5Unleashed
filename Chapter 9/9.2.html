@@ -1,0 +1,78 @@
+<!-- Listing 9.2: geo.html - A Geolocation Example -->
+
+<!--
+Super Simple Geolocation
+This is an HTML file, but to keep it small and flat
+we don't declare a doctype, html, or body elements!
+Instead we just have two script tags, and we'll
+insert content into the DOM as we need it.
+-->
+
+<script type="text/javascript"
+        src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+
+// A function that gets called if getCurrentPosition is successful
+function successCallback(position) {
+  // Create a div to use as the Google Map's container
+  var myMap = document.createElement('div');
+  myMap.style.width = '640px';
+  myMap.style.height = '480px';
+  document.body.appendChild(myMap);
+
+  // The coordinates from our position argument are used to make
+  // a LatLng object for interaction with the Google Maps API
+  var myCoords = new google.maps.LatLng(
+    position.coords.latitude,
+    position.coords.longitude);
+
+  // We create the map by specifying a Div and a set of options
+  // Note that we center the map on our latitude and longitude
+  var map = new google.maps.Map(
+    myMap,
+    { zoom: 15,
+      center: myCoords,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+  // Add marker to map at our coordinate
+  var marker = new google.maps.Marker({
+      position: myCoords,
+      map: map
+  });
+
+  // Add circle describing accuracy radius
+  var accuracyRadius = new google.maps.Circle({
+    map: map,
+    radius: position.coords.accuracy,
+    fillColor: '#00AA00'
+  });
+
+  // Connect the circle's position to the marker's position
+  accuracyRadius.bindTo('center', marker, 'position');
+}
+
+// A function that gets called if getCurrentPosition fails
+function errorCallback(positionError) {
+  // Not all browsers have positionError.message defined
+  // So we'll make custom messages for each code
+  var msg = {
+    1: 'Permission to use Geolocation was denied!',
+    2: 'The position of the device could not be determined!',
+    3: 'The operation has timed out!'
+  }
+  document.write(msg[positionError.code]);
+}
+
+// We should be accommodating to all users and always test for support
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+    successCallback,
+    errorCallback
+    // uncommenting this would enable GPS in GPS-capable devices:
+    //, { enableHighAccuracy: true }
+  );
+} else {
+  document.write('HTML5 Geolocation is not supported in your browser!');
+}
+</script>

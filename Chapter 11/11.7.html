@@ -1,0 +1,35 @@
+<!-- Listing 11.7: shared.html - Shared Workers Parent Page -->
+
+<!DOCTYPE html>
+<head>
+  <title>Shared Workers</title>
+</head>
+<body>
+
+<iframe id="frame" style="width:300px; height:120px" src="frame.html"></iframe>
+
+<script type="text/javascript">
+
+var muzhik = new SharedWorker('shared.js', 'Tolstoy');
+
+// Instead of listening directly on the worker,
+// we listen on the port attribute:
+muzhik.port.addEventListener('message', function(event) {
+  var p = document.createElement('p');
+  p.innerText = event.data;
+  document.body.appendChild(p);
+}, false);
+
+muzhik.port.start();
+
+// Send a message with a JSON object
+// Describing the Fibonacci number we want computed
+// And a name describing the page that is posting the message
+muzhik.port.postMessage(
+  { fib: 33,
+    page: 'parent'
+  });
+
+</script>
+
+</body>

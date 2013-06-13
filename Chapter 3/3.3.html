@@ -1,0 +1,13 @@
+<!-- Listing 3.3: Dragging Requirements -->
+
+<div id="myDragDiv" draggable="true">
+  You can't select this text, but you can drag it!
+</div>
+
+<script type="text/javascript">
+  var myDrag = document.getElementById('myDragDiv');
+  myDrag.addEventListener('dragstart', function(e) {
+    e.dataTransfer.setData("text/plain",
+      "You can't select this text, but you can drag it!");
+  });
+</script>

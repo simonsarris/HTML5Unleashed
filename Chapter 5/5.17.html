@@ -1,0 +1,75 @@
+<!-- Listing 5.17: Drawing.html - Drawing App Making Use of In-Memory Canvas -->
+
+<!doctype html>
+<html>
+<body>
+<canvas id="myCanvas" width="500" height="500"
+        style="border: 1px solid black;">
+</canvas>
+
+<script type="text/javascript">
+  var canvas = document.getElementById('myCanvas');
+  var ctx = canvas.getContext('2d');
+
+  ctx.strokeStyle = 'rgba(205,0,100,.5)';
+  ctx.lineWidth = 5;
+
+  // Make our in-memory canvas and set its size
+  var inMemCanvas = document.createElement('canvas');
+  inMemCanvas.width = canvas.width;
+  inMemCanvas.height = canvas.height;
+  var inMemCtx = inMemCanvas.getContext('2d');
+
+  var path = null;
+  var down = false;
+
+  // Fixes a problem where clicking in some browsers
+  // causes text selection on the page
+  canvas.addEventListener('selectstart',
+    function(e) { e.preventDefault(); return false; }, false);
+
+  canvas.addEventListener('mousedown', function(e) {
+    // grossly simplified mouse coordinates, don't use in production!
+    // see section on making canvas interactive
+    var x = e.clientX;
+    var y = e.clientY;
+    path = [];
+    path.push([x,y]);
+    down = true;
+  },  true);
+
+  canvas.addEventListener('mousemove', function(e) {
+    if (!down) return;
+    // grossly simplified mouse coordinates, don't use in production!
+    // see section on making canvas interactive
+    var x = e.clientX;
+    var y = e.clientY;
+    // add a new point to path, clear canvas, and draw complete path
+    path.push([x,y]);
+    drawPath();
+  },  true);
+
+  canvas.addEventListener('mouseup', function(e) {
+    drawPath();
+    down = false;
+    // save canvas to our in-memory canvas
+    inMemCtx.clearRect(0,0,500,500);
+    inMemCtx.drawImage(canvas, 0, 0);
+  },  true);
+
+  function drawPath() {
+    ctx.clearRect(0,0,500,500);
+    // put what was previously there back:
+    ctx.drawImage(inMemCanvas, 0, 0);
+    ctx.beginPath();
+    var l = path.length;
+    for (var i = 0; i < l; i++) {
+      var p = path[i];
+      if (i === 0) ctx.moveTo(p[0], p[1]);
+      else ctx.lineTo(p[0], p[1]);
+    }
+    ctx.stroke();
+  }
+</script>
+</body>
+</html>

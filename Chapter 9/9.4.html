@@ -1,0 +1,136 @@
+<!-- Listing 9.4: trailBlaze.html - A Web App for Recording User Position as the User Moves -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #myMap {
+      border: 2px solid black;
+      width: 640px;
+      height: 480px;
+    }
+
+    #infoBox {
+      border: 2px solid black;
+      padding: 10px;
+      margin: 10px;
+    }
+
+    p {
+      font: 13px Monospace;
+    }
+
+    span {
+      color: #0000CC;
+    }
+  </style>
+</head>
+<body>
+
+<div id="myMap">
+<!-- populated by Google Maps API -->
+</div>
+<!-- Some page information
+     so we can be sure our app is working while we're using it -->
+<div id="infoBox">
+  <p> Starting Location: <span id="myStartLoc"></span> </p>
+  <p> Current Location:  <span id="myCurrentLoc"></span> </p>
+  <p> Locations Changed: <span id="myLocCount"></span> times.</p>
+  <p> Last Accuracy:     <span id="myAccuracy"></span> meters.</p>
+</div>
+
+<script type="text/javascript"
+        src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script>
+
+var first       = true, // set to false after the first location
+    myCoordList = [],   // list of recorded locations
+    myGMap   = null, // reference to our map
+    myTrail     = null; // reference to the polyline that describes our trail
+    // HTML elements:
+    myMap        = document.getElementById('myMap'),
+    myStartLoc   = document.getElementById('myStartLoc'),
+    myCurrentLoc = document.getElementById('myCurrentLoc'),
+    myLocCount   = document.getElementById('myLocCount'),
+    myAccuracy   = document.getElementById('myAccuracy');
+
+// A function that gets called if getCurrentPosition is successful
+function successCallback(position) {
+  // If we accidentally lose GPS signal for a moment
+  // we don't want a wild line sticking out in the middle of our trail
+  // So we throw away any recording greater than 40 meters as junk
+  // We could probably make this value even smaller!
+  if (position.coords.accuracy > 40) return;
+
+  var myLat = position.coords.latitude,
+      myLong = position.coords.longitude;
+
+  // The coordinates from our position argument are used to make
+  // a LatLng object for interaction with the Google Maps API
+  var myCoords = new google.maps.LatLng(myLat, myLong);
+  myCoordList.push(myCoords);
+
+  // We have a lot of one-time stuff to do on the first Geolocation success
+  if (first) {
+    first = false;
+    myStartLoc.innerHTML = myLat + ', ' + myLong;
+
+    // The first time around, we initialize a map
+    myGMap = new google.maps.Map(
+      myMap,
+      { zoom: 17,
+        center: myCoords,
+        mapTypeId: google.maps.MapTypeId.ROADMAP });
+
+    // Add marker to map at our coordinate
+    var marker = new google.maps.Marker({
+        position: myCoords,
+        map: myGMap });
+
+    // Initialize a trail the first time
+    myTrail = new google.maps.Polyline({
+        strokeColor: "#FF0000",
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+      });
+    myTrail.setMap(myGMap);
+  }
+
+  // Update our info box every time:
+  myCurrentLoc.innerHTML = myLat + ', ' + myLong;
+  myLocCount.innerHTML = myCoordList.length;
+  myAccuracy.innerHTML = position.coords.accuracy;
+
+  // Set the updated path of the trail (polyline) every time:
+  myTrail.setPath(myCoordList);
+}
+
+// If watchPosition fails
+function errorCallback(positionError) {
+  var msg = {
+    1: 'Permission to use Geolocation was denied!',
+    2: 'The position of the device could not be determined!',
+    3: 'The operation has timed out!'
+  }
+  // For conciseness only we're using an alert for errors
+  // In a production app we should make something nicer and less jarring
+  alert(msg[positionError.code]);
+}
+
+
+// We should be accommodating to all users and always test for support
+if (navigator.geolocation) {
+  navigator.geolocation.watchPosition(
+    successCallback,
+    errorCallback,
+    { enableHighAccuracy: true });
+} else {
+  // For conciseness only we're using an alert for errors
+  // In a production app we should make something nicer and less jarring
+  alert('Sorry! The Geolocation API is not supported in your browser.')
+}
+
+</script>
+
+</body>
+</html>

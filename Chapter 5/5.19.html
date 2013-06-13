@@ -1,0 +1,28 @@
+<!-- Listing 5.19: ImageData.html -->
+
+<canvas id="canvas1" width="100" height="100" style="border: 1px solid black;">
+</canvas>
+<canvas id="canvas2" width="100" height="100" style="border: 1px solid black;">
+</canvas>
+
+<script>
+var can = document.getElementById('canvas1');
+var ctx = can.getContext('2d');
+
+var can2 = document.getElementById('canvas2');
+var ctx2 = can2.getContext('2d');
+
+ctx.fillStyle = 'DarkSlateGray';
+ctx.fillRect(30, 30, 50, 50);
+ctx.fillStyle = 'MistyRose';
+ctx.fillRect(70, 50, 50, 50);
+ctx.fillStyle = 'Thistle';
+ctx.fillRect(50, 70, 50, 50);
+ctx.fillStyle = 'MediumSlateBlue';
+ctx.fillRect(40, 10, 5, 80);
+
+var imgData = ctx.getImageData(0, 0, 100, 100);
+ctx2.putImageData(imgData,
+  0, 0,      // destination location
+  30, 30, 50, 50); // dirty rect
+</script>

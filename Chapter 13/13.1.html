@@ -1,0 +1,22 @@
+<!-- Listing 13.1: HTML Snippet -->
+
+<div>
+  Hello, I'm Simon Sarris, a Software Developer living at
+  5 HTML Road Nashua, NH.
+  My homepage is <a href="http://www.simonsarris.com">simonsarris.com</a>.
+</div>
+***end listing***
+Listing 13.2 contains the same HTML snippet, marked up with Microdata.
+***begin listing***
+LISTING 13.2[em]HTML Snippet with Microdata
+<div itemscope itemtype="http://schema.org/Person">
+  Hello, I'm <span itemprop="name">Simon Sarris</span>,
+  a <span itemprop="jobTitle">Software Developer</span> living at
+  <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+    <span itemprop="streetAddress">5 HTML Road</span>
+    <span itemprop="addressLocality">Nashua</span>,
+    <span itemprop="addressRegion">NH</span>.
+  </div> <!-- end of PostalAddress item scope -->
+  My homepage is <a href="http://www.simonsarris.com" itemprop="url">
+  simonsarris.com</a>.
+</div> <!-- end of Person item scope -->

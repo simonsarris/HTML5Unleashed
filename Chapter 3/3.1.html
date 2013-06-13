@@ -1,0 +1,22 @@
+<!-- Listing 3.1: Loading the Webshims Library and Dependencies -->
+
+<!-- dependencies: jQuery + Modernizr with yepnope
+     Can be found bundled with webshims:
+     http://afarkas.github.io/webshim/demos/index.html -->
+<script src="js/jquery-1.7.1.js"></script>
+<script src="js/modernizr-yepnope-custom.js"></script>
+
+<!-- reference the base script -->
+<script src="js-webshim/minified/polyfiller.js"></script>
+
+<script>
+  //implement all unsupported features or call polyfill before DOM-Ready
+  // to implement everything as soon and as fast as possible
+  $.webshims.polyfill();
+  //or load only specific features you need
+  //$.webshims.polyfill('forms json-storage');
+
+  $(function(){
+  //use all implemented API-features on DOM-ready
+  });
+</script>
