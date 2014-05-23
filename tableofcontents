@@ -1,0 +1,303 @@
+Table of Contents
+
+
+ Introduction ............................................. 1
+Who Should Read This Book? ................................ 2
+HTML5 and Related Technologies ............................ 2
+Software Requirements ..................................... 3
+Code Examples ............................................. 3
+How This Book Is Organized ................................ 3
+Part I: Background ........................................ 4
+Part II: New HTML Elements ................................ 4
+Part III: Canvas .......................................... 4
+Part IV: HTML5’s JavaScript APIs .......................... 4
+Links and Real-World Examples ............................. 5
+
+
+ 1 Why HTML5? 7
+How Did We End Up Here? ................................... 7
+The Web Takes Off ......................................... 9
+The Rise of the Browser Plug-In............................ 9
+Web 2.0 ................................................... 10
+HTML5 ..................................................... 11
+What Exactly Is HTML5? .................................... 11
+The Importance of HTML5 ................................... 12
+Are Plug-ins Dead? ........................................ 14
+Summary ................................................... 14
+
+
+ 2 Important Concepts for HTML5 15
+The Goals of HTML5 ........................................ 15
+Improving the Native Web .................................. 15
+More Done with Less Code .................................. 16
+The Semantic Web .......................................... 16
+Requisites for HTML5 Development .......................... 16
+Modern Browser Developer Tools ............................ 16
+HTML5 Fallbacks: Shims, Shivs, and Polyfills .............. 17
+Feature Support and Detection ............................. 18
+Summary ................................................... 19
+
+
+ 3 Getting Started with HTML5: Semantic Tags, Forms, 
+and Drag and Drop 21
+Ensuring Backward Compatibility with the New HTML Tags..... 21
+The HTML5 Shim ............................................ 22
+HTML5 Boilerplate ......................................... 23
+Starting from the Top ..................................... 23
+The Doctype ............................................... 23
+Meta Character Encoding ................................... 24
+HTML5 Syntax and Validation ............................... 24
+How You Should Write Your HTML ............................ 27
+Housekeeping .............................................. 29
+HTML5 Semantic Elements and Other 
+Presentational Tags ....................................... 31
+HTML5 Semantic Tags ....................................... 31
+Document Outlines in HTML5 ................................ 33
+Minor Semantic and Presentational HTML5 Tags .............. 35
+Visual HTML5 Tags: <meter> and <progress> ................. 37
+HTML5 Forms ............................................... 40
+Form Input Types .......................................... 40
+New Form Input Attributes and Elements .................... 47
+Drag and Drop in HTML5 .................................... 53
+The Basics ................................................ 53
+Drag Data and Effects ..................................... 55
+Drag Events ............................................... 58
+Summary ................................................... 67
+
+
+ 4 Rich Media Tags: Video and Audio 69
+The Video Element ......................................... 71
+Video Formats and Support ................................. 71
+Using the Video Element ................................... 75
+The Audio Element ......................................... 77
+Audio Formats and Support ................................. 77
+Using the Audio Element ................................... 79
+Encoding Your Media ....................................... 80
+Conversion Tools .......................................... 81
+Supporting Older Browsers ................................. 81
+Video and Audio Attributes ................................ 82
+Video-Only Attributes ..................................... 82
+Attributes Shared Between Audio and Video.................. 85
+JavaScript API ............................................ 90
+The readyState and Starting at a Specified Time ........... 92
+The playbackRate and Time Control ......................... 93
+Loading Videos Sequentially ............................... 94
+Custom Controls ........................................... 95
+Advantages and Disadvantages of the HTML5 Media 
+Tags Versus Flash ......................................... 95
+Ease of Use and Extensibility ............................. 95
+Platform Support .......................................... 96
+Feature Support ........................................... 96
+Media Protection .......................................... 97
+Future Developments ....................................... 97
+WebRTC .................................................... 97
+WebVTT and the <track> Tag ................................ 98
+The Full-Screen API ....................................... 100
+The Web Audio API ......................................... 100
+The Embed Element ......................................... 101
+Summary ................................................... 101
+
+
+ 5 2D Canvas 103
+Browser Support ........................................... 104
+Internet Explorer ......................................... 105
+Testing for Support ....................................... 105
+What Canvas Can and Cannot Do ............................. 106
+A Comparison with SVG ..................................... 107
+Where Canvas Shines ....................................... 109
+When to Not Use Canvas .................................... 109
+Don’t Use Canvas for General UI ........................... 111
+Getting Started with Canvas ............................... 111
+An HTML Page with a Canvas ................................ 113
+Canvas Attributes ......................................... 115
+toDataURL ................................................. 116
+Context Methods and State ................................. 117
+A Quick Look at the Properties and State Available ........ 117
+Understanding Drawing, Starting with Rectangles ........... 118
+fillStyle and strokeStyle.................................. 119
+Paths ..................................................... 120
+Understanding the Canvas Coordinate System ................ 122
+Line Styles ............................................... 125
+Curves .................................................... 127
+Ellipses .................................................. 133
+isPointInPath ............................................. 135
+Path Filling—The Winding Number Rule ...................... 135
+Summary of Context State So Far ........................... 138
+Saving and Restoring ...................................... 140
+Transformation Matrix ..................................... 141
+translate ................................................. 141
+scale ..................................................... 143
+Saving and Restoring Affect How Drawing Functions 
+Act on a Transformed Canvas ............................... 143
+rotate .................................................... 146
+transform and setTransform ................................ 150
+Keeping Track of Transformations .......................... 152
+In-Memory Canvases ........................................ 154
+Using Images and Other Canvases ........................... 160
+Double Buffering .......................................... 161
+Image Data and Pixel Manipulation.......................... 162
+getImageData .............................................. 162
+createImageData ........................................... 164
+putImageData .............................................. 164
+Image Security on the Canvas .............................. 171
+CORS....................................................... 172
+But I Want to Test My Image Data Code Locally! ............ 172
+Gradients and Patterns .................................... 173
+Linear Gradients .......................................... 173
+Radial Gradients .......................................... 175
+Gradient Performance and Reuse ............................ 177
+Patterns .................................................. 179
+Shadows ................................................... 182
+Compositing ............................................... 184
+Compositing Examples ...................................... 186
+Clipping .................................................. 189
+Clearing Nonrectangular Areas ............................. 190
+Using Text ................................................ 192
+First the Bad Parts ....................................... 192
+Drawing Text .............................................. 194
+Fonts ..................................................... 195
+textBaseline .............................................. 197
+textAlign ................................................. 197
+Measuring Text ............................................ 198
+Performance ............................................... 199
+Canvas Context Recap ...................................... 200
+Styling ................................................... 200
+Shadows ................................................... 200
+State ..................................................... 200
+Rectangles ................................................ 200
+Paths ..................................................... 201
+Image Drawing ............................................. 202
+Transformation ............................................ 202
+Compositing ............................................... 202
+Text ...................................................... 202
+Image Data ................................................ 203
+Summary ................................................... 203
+
+
+ 6 Making Canvas Interactive and Stateful 205
+Canvas Coordinates—Mouse and Touch ........................ 205
+getBoundingClientRect ..................................... 206
+Computing Element Offset .................................. 207
+Canvas Animation .......................................... 210
+Letting the Browser Take Control with 
+requestAnimationFrame ..................................... 210
+Animation and Timing ...................................... 212
+Canvas Interactivity Example: Making and 
+Moving Shapes ............................................. 215
+Getting Started ........................................... 216
+The Shapes We Draw ........................................ 217
+Keeping Track of Canvas State ............................. 218
+Mouse and Touch Events .................................... 219
+Getting Input Coordinates.................................. 222
+Drawing.................................................... 223
+Complete Canvas Interactivity Example ..................... 225
+Summary ................................................... 231
+
+
+ 7 Canvas Performance, Tips, and Peculiarities 233
+Canvas Peculiarities and Tips ............................. 234
+CSS Width and Height ...................................... 234
+Paths or Images Look Blurry ............................... 234
+The Methods save and restore .............................. 236
+Clipping Regions Can Only Get Smaller and Cannot Be Reset . 237
+Security Exceptions, Cross-domain Images, and Image Data .. 238
+Transformations Affect Drawing in Addition to Paths ....... 238
+A Performance Primer ...................................... 239
+Tools of the Trade......................................... 240
+Before We Get to Canvas ................................... 245
+The DOM and Canvas ........................................ 248
+Caching Context Properties ................................ 248
+Stop Using save and restore ............................... 250
+Caching with Images and In-Memory Canvases ................ 251
+Images .................................................... 252
+Text ...................................................... 252
+Shadows ................................................... 253
+Gradients ................................................. 254
+Paths ..................................................... 255
+Multiple Canvases ......................................... 256
+Keeping Track of Objects .................................. 257
+Hit Testing ............................................... 257
+Size Matters .............................................. 260
+Summary ................................................... 261
+
+
+ 8 The Future of Canvas and 3D Canvas 263
+The Future of 2D Canvas ................................... 263
+New in the Specification .................................. 264
+Hints from the Browsers ................................... 270
+3D (WebGL) Canvas ......................................... 271
+WebGL Libraries ........................................... 272
+Summary ................................................... 275
+
+
+ 9 Geolocation API 277
+Understanding Latitude and Longitude ...................... 278
+Types of Geolocation Data ................................. 280
+The Old Ways .............................................. 280
+The HTML5 Way—New Methods for Geolocation ................. 281
+HTML5 Geolocation API ..................................... 282
+Geolocation Support ....................................... 283
+Using Geolocation ......................................... 283
+The API ................................................... 283
+Geolocation in Action ..................................... 288
+Where Am I? ............................................... 288
+A Trailblazing App ........................................ 293
+Summary ................................................... 299
+
+
+ 10 HTML5 Storage Options 301
+Older Storage Methods ..................................... 301
+Browser Cookies ........................................... 301
+Flash Cookies ............................................. 302
+userData .................................................. 302
+Along the Way ............................................. 302
+Web Storage—sessionStorage and localStorage ............... 303
+sessionStorage ............................................ 303
+localStorage .............................................. 304
+API ....................................................... 304
+WebSQL Database ........................................... 307
+IndexedDB ................................................. 308
+Getting Started with IndexedDB ............................ 308
+Looking Further............................................ 322
+FileSystem API for Local Read/Write Access ................ 323
+FileSystem API Example .................................... 324
+Offline Pages and the Application Cache ................... 326
+Using the Application Cache ............................... 327
+Important Notes About the Application Cache ............... 330
+Summary ................................................... 331
+
+
+ 11 Messaging and Web Workers 333
+The Web Messaging API and Cross-Document Messaging ........ 333
+Sending and Receiving Messages ............................ 334
+Channel Messaging ......................................... 336
+Security with Web Messages ................................ 338
+Web Workers................................................ 339
+Getting Started with Web Workers .......................... 340
+A Simple Example .......................................... 342
+Shared Web Workers ........................................ 345
+Web Worker Considerations ................................. 349
+Summary ................................................... 351
+
+
+ 12 Network Communication: WebSockets and XMLHttpRequest Level 2 353
+Real-Time Communication with WebSockets ................... 354
+Before WebSockets ......................................... 354
+Getting Started with WebSockets ........................... 355
+A Complete WebSockets Example ............................. 358
+Server-Side WebSockets .................................... 359
+New AJAX Capabilities with XMLHttpRequest Level 2 ......... 359
+New Features in XHR2 ...................................... 360
+Summary ................................................... 364
+
+
+ 13 Microdata, Other Small Things, and Beyond HTML5 365
+Microdata ................................................. 365
+Getting Started with Microdata ............................ 367
+A Microdata Recipe Example................................. 371
+New Browser Features Not Covered in This Text ............. 373
+Honorable Mention: The File API ........................... 373
+Other New Browser Features ................................ 375
+The Future ................................................ 378
+The Future of Web Development ............................. 379
+Summary ................................................... 380
